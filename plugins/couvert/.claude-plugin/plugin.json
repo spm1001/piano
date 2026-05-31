@@ -1,0 +1,12 @@
+{
+  "name": "couvert",
+  "version": "0.1.0",
+  "description": "Session lifecycle skill (couvert) + ping diagnostic MCP.",
+  "author": { "name": "Sameer Modha" },
+  "mcpServers": {
+    "ping": {
+      "command": "uv",
+      "args": ["run", "--directory", "${CLAUDE_PLUGIN_ROOT}/mcp/ping", "ping-server"]
+    }
+  }
+}

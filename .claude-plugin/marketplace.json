@@ -1,0 +1,11 @@
+{
+  "name": "piano",
+  "owner": { "name": "Sameer Modha" },
+  "plugins": [
+    {
+      "name": "couvert",
+      "source": "./plugins/couvert",
+      "description": "Session lifecycle skill + ping diagnostic MCP."
+    }
+  ]
+}

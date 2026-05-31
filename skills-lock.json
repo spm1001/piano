@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "couvert": {
+      "source": "/home/modha/Repos/spm1001/piano",
+      "sourceType": "local",
+      "computedHash": "177effbf35527d07b81872e8c6fda5208c04c8b3d06993b4b70f849c4ed368d9"
+    }
+  }
+}

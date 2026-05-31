@@ -1,0 +1,19 @@
+# servers.yaml — the ONE source for every MCP invocation.
+#
+# render-configs.py turns this into all three per-agent configs:
+#   Claude      -> .mcp.json            ({"mcpServers": {...}})
+#   Antigravity -> mcp_config.json      (same JSON shape, different path)
+#   Codex       -> .codex/config.toml   ([mcp_servers.<name>])
+#
+# Launcher note: we use `uv run --directory ./mcp/<name>` (editable, always
+# fresh) rather than `uvx --from ...`, because uvx caches the built wheel by
+# version and would serve stale code after an edit — the project's own
+# vendor-drift theme one layer down. See .bon/understanding.md.
+
+servers:
+  ping:
+    description: Trivial diagnostic — proves the transport (stdio + streamable-HTTP).
+    transport: stdio            # flip to 'http' for the claude.ai chat deployment (Stage 1)
+    command: uv
+    args: ["run", "--directory", "./mcp/ping", "ping-server"]
+    env: []                     # names of env vars to pass through (none for ping)
