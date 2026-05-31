@@ -14,7 +14,10 @@ help:  ## show this help
 	@grep -E '^[a-z.]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2}'
 
-sync:  ## project canonical skills into every agent dir + render the 3 MCP configs
+# sync depends on flatten so editing a canonical source then running `make sync`
+# ALSO refreshes the plugin's bundled copy — otherwise the plugin silently drifts
+# (the exact failure this repo exists to prevent).
+sync: flatten  ## regenerate every view: agent skills + 3 MCP configs + plugin copies
 	# Split the call: skills@1.5.9 consolidates a combined multi-agent install
 	# into .agents/ only and SKIPS the Claude copy, so claude-code must run on
 	# its own to produce .claude/skills/. (Verified 2026-05-31; re-check on bumps.)
