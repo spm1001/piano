@@ -1,0 +1,18 @@
+[Unit]
+Description=piano — ping MCP (streamable-HTTP) on 127.0.0.1:8791
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/modha/Repos/spm1001/piano
+Environment=PING_TRANSPORT=http
+Environment=FASTMCP_HOST=127.0.0.1
+Environment=FASTMCP_PORT=8791
+Environment=PING_ALLOWED_HOSTS=ping.planetmodha.com
+ExecStart=/home/modha/.local/bin/uv run --directory /home/modha/Repos/spm1001/piano/mcp/ping ping-server
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=piano — cloudflared tunnel for ping.planetmodha.com
+After=network-online.target piano-ping.service
+Wants=network-online.target
+Requires=piano-ping.service
+
+[Service]
+Type=simple
+ExecStart=/home/modha/.local/bin/cloudflared tunnel --no-autoupdate --config /home/modha/.cloudflared/config.yml run
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

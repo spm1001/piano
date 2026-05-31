@@ -17,3 +17,8 @@ __pycache__/
 .mcp.json
 mcp_config.json
 # skills CLI lockfile IS committed (drift tracking), like a package-lock.
+
+# cloudflared credentials — never commit (belong in ~/.cloudflared/)
+cert.pem
+*.cfargotunnel.json
+**/.cloudflared/

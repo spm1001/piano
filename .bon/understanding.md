@@ -92,6 +92,16 @@ installed-version == stale-source-version.
   deployable MCP must read the bind address itself: `ping`'s `main()` honours
   `$PORT`/`$HOST` (PaaS convention) with `FASTMCP_*` as fallback. Matters for
   Stage 1 deployment, not just the smoke.
+- **claude.ai accepts a NO-AUTH remote MCP connector** (streamable-HTTP) — no
+  OAuth shim required. Verified 2026-05-31: a quick-tunnel ping registered as a
+  custom connector and was callable from web chat (pong pid matched the hezza
+  process). Stage-1 benchmark met; only permanence (Phase B) remains.
+- **FastMCP's DNS-rebinding protection rejects tunneled/proxied requests** with
+  HTTP 421 "Invalid Host header" — its default Host allowlist is localhost only.
+  Any reverse proxy / tunnel (Cloudflare, nginx) presents the public hostname,
+  which must be allowlisted. `ping` honours `PING_ALLOWED_HOSTS` (comma-separated)
+  and sets `TransportSecuritySettings(allowed_hosts=..., allowed_origins=...)`.
+  Discovered 2026-05-31 wiring the Stage-1 quick tunnel.
 - **Transport is one runtime switch on one source.** `ping`'s `main()` reads
   `PING_TRANSPORT` (`stdio` default, `http` → streamable-HTTP). Two smokes prove
   both locally: `scripts/smoke_ping.py` (stdio) and `scripts/smoke_ping_http.py`

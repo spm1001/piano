@@ -37,6 +37,23 @@ def main() -> None:
             mcp.settings.host = host
         if port:
             mcp.settings.port = int(port)
+        # FastMCP's DNS-rebinding protection rejects any Host header not in its
+        # allowlist (default: localhost only) with "Invalid Host header". When
+        # reached through a tunnel/proxy the public hostname must be allowed.
+        # PING_ALLOWED_HOSTS is a comma-separated allowlist (e.g.
+        # "ping.example.com"); origins default to https://<host> unless given.
+        allowed = os.environ.get("PING_ALLOWED_HOSTS")
+        if allowed:
+            from mcp.server.transport_security import TransportSecuritySettings
+
+            hosts = [h.strip() for h in allowed.split(",") if h.strip()]
+            origins_env = os.environ.get("PING_ALLOWED_ORIGINS", "")
+            origins = [o.strip() for o in origins_env.split(",") if o.strip()]
+            mcp.settings.transport_security = TransportSecuritySettings(
+                enable_dns_rebinding_protection=True,
+                allowed_hosts=hosts,
+                allowed_origins=origins or [f"https://{h}" for h in hosts],
+            )
         mcp.run(transport="streamable-http")
     else:
         mcp.run()
