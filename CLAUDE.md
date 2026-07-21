@@ -13,3 +13,5 @@ instructions here:
   and `.claude-plugin/marketplace.json`. Bump `plugin.json` `version` on every
   change — Claude compares it, and a skipped bump is what greys out the Desktop
   "Update" button.
+
+Work is tracked on a bon board in `.bon/` — read `.bon/README.md` before reading or changing anything there.

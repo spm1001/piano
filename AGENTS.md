@@ -51,3 +51,5 @@ and `scripts/render-configs.py` (`servers.yaml` → the three MCP configs).
   submodules — so it survives org-marketplace sync, Windows checkout, and zip
   packaging.
 - **Keep `ping` trivial.** It is the transport smoke test; do not make it useful.
+
+Work is tracked on a bon board in `.bon/` — read `.bon/README.md` before reading or changing anything there.
