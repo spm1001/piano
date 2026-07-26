@@ -2,16 +2,25 @@
 Description=piano — ping MCP (streamable-HTTP) on 127.0.0.1:8791
 After=network-online.target
 Wants=network-online.target
+# Restart=always closes the silent-clean-exit gap (iw-rogopo, 2026-07-26): on-failure
+# left a clean exit dead with Result=success — no restart, no OnFailure email. The start
+# limit is the mandatory partner: this is a local server whose crashes mean real breakage
+# (port conflict, broken venv), so a loop trips at 10 starts (~35s at RestartSec=3),
+# fails the unit, and fires the OnFailure email.
+StartLimitIntervalSec=300
+StartLimitBurst=10
 
 [Service]
 Type=simple
-WorkingDirectory=/home/modha/Repos/spm1001/piano
+# Installed from GitHub — the weaning principle (iw-numeho): no working-tree paths.
+#   uv tool install 'git+https://github.com/spm1001/piano.git#subdirectory=mcp/ping'
+# (hezza's retired unit ran `uv run --directory ~/repos/spm1001/piano/mcp/ping` instead.)
 Environment=PING_TRANSPORT=http
 Environment=FASTMCP_HOST=127.0.0.1
 Environment=FASTMCP_PORT=8791
 Environment=PING_ALLOWED_HOSTS=ping.planetmodha.com
-ExecStart=/home/modha/.local/bin/uv run --directory /home/modha/Repos/spm1001/piano/mcp/ping ping-server
-Restart=on-failure
+ExecStart=%h/.local/bin/ping-server
+Restart=always
 RestartSec=3
 
 [Install]
